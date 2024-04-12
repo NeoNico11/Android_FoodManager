@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="shopList">Liste de courses</string>
+    <string name="stock">Aliments</string>
+    <string name="settings">Paramètres</string>
+</resources>

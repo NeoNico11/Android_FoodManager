@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="shopList">Shopping List</string>
+    <string name="stock">Stock</string>
+    <string name="settings">Settings</string>
+</resources>
