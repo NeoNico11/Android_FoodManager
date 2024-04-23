@@ -10,6 +10,10 @@ class OfflineStockItemRepository(private val stockItemDao: StockItemDao): StockI
         return stockItemDao.getAllStockItems()
     }
 
+    override fun getAllStockItemsByStockStream(idStock: Int): Flow<List<StockItem>> {
+        return stockItemDao.getAllStockItemsByStock(idStock)
+    }
+
     override fun getStockItemStream(id: Int): Flow<StockItem?> {
         return stockItemDao.getStockItem(id)
     }

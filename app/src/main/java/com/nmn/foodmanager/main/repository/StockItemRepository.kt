@@ -13,6 +13,11 @@ interface StockItemRepository {
     fun getAllStockItemsStream(): Flow<List<StockItem>>
 
     /**
+     * Retrieve all the stockItems from the given data source by [idStock].
+     */
+    fun getAllStockItemsByStockStream(idStock: Int): Flow<List<StockItem>>
+
+    /**
      * Retrieve a stockItem from the given data source that matches with the [id].
      */
     fun getStockItemStream(id: Int): Flow<StockItem?>

@@ -14,48 +14,55 @@
         android:layout_height="wrap_content"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/Quantity"
+        app:layout_constraintEnd_toStartOf="@+id/StockQuantity"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="test" />
 
     <TextView
-        android:id="@+id/Quantity"
+        android:id="@+id/StockExpireDate"
+        style="test"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Date limite : "
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/textView_stockItemExpireDate"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView_stockItemExpireDate"
+        style="test"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/StockQuantity"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="12/25/24" />
+
+    <TextView
+        android:id="@+id/StockQuantity"
         style="test"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Quantité : "
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/textView_shopListItemQuantity"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintEnd_toStartOf="@+id/textView_stockItemQuantity"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.482" />
 
     <TextView
-        android:id="@+id/textView_shopListItemQuantity"
+        android:id="@+id/textView_stockItemQuantity"
         style="test"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="24dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/validate"
+        app:layout_constraintEnd_toStartOf="@+id/supprStockElement"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="1" />
 
-    <CheckBox
-        android:id="@+id/validate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/supprElement"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="#c3c3c3"
-        app:layout_constraintTop_toBottomOf="@+id/validate" />
-
     <ImageButton
-        android:id="@+id/supprElement"
+        android:id="@+id/supprStockElement"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:hint="Supprimer l'élément"
@@ -63,4 +70,11 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#c3c3c3"
+        app:layout_constraintTop_toBottomOf="@+id/supprStockElement"
+        tools:layout_editor_absoluteX="16dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>

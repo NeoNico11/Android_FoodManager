@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
+    <string name="stockItemName">Nom</string>
+    <string name="stockItemQuantity">Quantité</string>
+    <string name="stockItemExpirationDate">Date d\'éxpiration</string>
+    <string name="addItemtoStock">Ajouter l\'article</string>
 </resources>

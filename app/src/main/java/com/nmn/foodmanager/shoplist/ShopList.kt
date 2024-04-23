@@ -1,72 +1,83 @@
 package com.nmn.foodmanager.shoplist
 
-import android.content.Context
 import android.os.Bundle
+import android.text.TextUtils
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.nmn.foodmanager.R
+import com.nmn.foodmanager.databinding.FragmentShopListBinding
+import com.nmn.foodmanager.main.entity.ShoppingListItem
 
-
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [ShopList.newInstance] factory method to
- * create an instance of this fragment.
- */
 class ShopList : Fragment() {
-    // Context
-    var mContext: Context? = null
 
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+    private var _binding : FragmentShopListBinding?= null
+    private val binding get() = _binding!!
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-        val recyclerView = findViewById<RecyclerView>(R.id.recyclerview)
-        val adapter = ShoppingListItemAdapter()
-        recyclerView.adapter = adapter
-        recyclerView.layoutManager = LinearLayoutManager(this)
-    }
+    private lateinit var mShoppingListItemViewModel: ShoppingListItemViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        mContext = getActivity();
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_shop_list, container, false)
+    ): View {
+        Log.d("ShopList", "Create Fragment ShopList")
+        _binding = FragmentShopListBinding.inflate(inflater, container, false)
+
+
+        // Recyclerview - LayoutManager
+        val layoutManager = LinearLayoutManager(requireContext())
+        Log.d("ShopList", "Binding layoutManager to recyclerviewShopList : $layoutManager")
+        binding.recyclerviewShopList.layoutManager = layoutManager
+        // Recyclerview - Adapter
+        val adapter = ShoppingListItemAdapter(::deleteItemFromDatabase, ::updateItemIntoDatabase)
+        Log.d("ShopList", "Binding adapter to recyclerviewShopList : $adapter")
+        binding.recyclerviewShopList.adapter = adapter
+
+        // UserViewModel
+        mShoppingListItemViewModel = ViewModelProvider(this, ShoppingListItemViewModelFactory(requireActivity().application))[ShoppingListItemViewModel::class.java]
+        mShoppingListItemViewModel.allListItems.observe(viewLifecycleOwner) { shoppingListItemList ->
+            adapter.setData(shoppingListItemList)
+        }
+
+        binding.addToShopList.setOnClickListener {
+            insertItemToDatabase()
+        }
+
+        return binding.root
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment ShopList.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            ShopList().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+    private fun insertItemToDatabase() {
+        val shopListItem = binding.itemToAdd.text.toString()
+
+
+        if (inputCheck(shopListItem)) {
+            val item = ShoppingListItem(0, 1, shopListItem, 1, false)
+            mShoppingListItemViewModel.addShoppingListItem(item)
+            Toast.makeText(requireContext(), "Elément ajouté avec succés", Toast.LENGTH_LONG).show()
+            binding.itemToAdd.text.clear()
+        } else {
+            Toast.makeText(requireContext(), "Veuillez reinseigner un article à ajouter à votre liste", Toast.LENGTH_LONG).show()
+        }
+    }
+
+    private fun updateItemIntoDatabase(shoppingListItem: ShoppingListItem) {
+        mShoppingListItemViewModel.updateShoppingListItem(shoppingListItem)
+    }
+
+    private fun deleteItemFromDatabase(shoppingListItem: ShoppingListItem) {
+        mShoppingListItemViewModel.removeShoppingListItem(shoppingListItem)
+    }
+
+    private fun inputCheck(shopListItem: String): Boolean {
+        return !(TextUtils.isEmpty(shopListItem))
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

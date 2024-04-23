@@ -7,17 +7,38 @@
 
     <fragment
         android:id="@+id/stock"
-        android:name="com.nmn.foodmanager.Stock"
+        android:name="com.nmn.foodmanager.stock.Stock"
         android:label="fragment_stock"
-        tools:layout="@layout/fragment_stock" />
+        tools:layout="@layout/fragment_stock" >
+        <action
+            android:id="@+id/action_stock_to_shopList"
+            app:destination="@id/shopList" />
+        <action
+            android:id="@+id/action_stock_to_settings"
+            app:destination="@id/settings" />
+    </fragment>
     <fragment
         android:id="@+id/settings"
         android:name="com.nmn.foodmanager.Settings"
         android:label="fragment_settings"
-        tools:layout="@layout/fragment_settings" />
+        tools:layout="@layout/fragment_settings" >
+        <action
+            android:id="@+id/action_settings_to_shopList"
+            app:destination="@id/shopList" />
+        <action
+            android:id="@+id/action_settings_to_stock"
+            app:destination="@id/stock" />
+    </fragment>
     <fragment
         android:id="@+id/shopList"
         android:name="com.nmn.foodmanager.shoplist.ShopList"
         android:label="fragment_shop_list"
-        tools:layout="@layout/fragment_shop_list" />
+        tools:layout="@layout/fragment_shop_list" >
+        <action
+            android:id="@+id/action_shopList_to_stock"
+            app:destination="@id/stock" />
+        <action
+            android:id="@+id/action_shopList_to_settings"
+            app:destination="@id/settings" />
+    </fragment>
 </navigation>

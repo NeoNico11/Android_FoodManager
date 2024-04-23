@@ -13,6 +13,11 @@ interface ShoppingListItemRepository {
     fun getAllShoppingListItemsStream(): Flow<List<ShoppingListItem>>
 
     /**
+     * Retrieve all the shoppingLists from the given data source by list id.
+     */
+    fun getAllShoppingListItemsByListStream(idList: Int): Flow<List<ShoppingListItem>>
+
+    /**
      * Retrieve a shoppingList from the given data source that matches with the [id].
      */
     fun getShoppingListItemStream(id: Int): Flow<ShoppingListItem?>

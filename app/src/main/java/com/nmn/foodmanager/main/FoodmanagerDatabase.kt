@@ -18,7 +18,7 @@ import com.nmn.foodmanager.main.entity.StockList
     ShoppingListItem::class,
     StockList:: class,
     StockItem:: class,
-                     ], version = 1, exportSchema = false)
+                     ], version = 2, exportSchema = false)
 abstract class FoodmanagerDatabase: RoomDatabase() {
 
     abstract fun shoppingListDao(): ShoppingListDao
@@ -36,6 +36,7 @@ abstract class FoodmanagerDatabase: RoomDatabase() {
         fun getDatabase(context: Context): FoodmanagerDatabase {
             return Instance ?: synchronized(this) {
                 Room.databaseBuilder(context, FoodmanagerDatabase::class.java, "foodmanager_database")
+                    .fallbackToDestructiveMigration()
                     .build()
                     .also { Instance = it }
             }

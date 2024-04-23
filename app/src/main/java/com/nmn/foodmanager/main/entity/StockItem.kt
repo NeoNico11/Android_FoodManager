@@ -15,7 +15,7 @@ import androidx.room.PrimaryKey
 ])
 data class StockItem(
     @PrimaryKey (autoGenerate = true) val id: Int = 0,
-    @ColumnInfo(name = "id_stock") val idList: Long,
+    @ColumnInfo(name = "id_stock") val idStock: Long,
     @ColumnInfo(name = "name") val name: String,
     @ColumnInfo(name = "quantity") val quantity: Int,
     @ColumnInfo(name = "expiration_date") val expirationDate: Long

@@ -26,4 +26,7 @@ interface ShoppingListItemDao {
 
     @Query("SELECT * from shoppingListItems ORDER BY id_list ASC")
     fun getAllShoppingListItems(): Flow<List<ShoppingListItem>>
+
+    @Query("SELECT * from shoppingListItems WHERE id_list = :idList ORDER BY name ASC")
+    fun getAllShoppingListItemsByList(idList: Int): Flow<List<ShoppingListItem>>
 }

@@ -26,4 +26,7 @@ interface StockItemDao {
 
     @Query("SELECT * from stockItems ORDER BY id_stock ASC")
     fun getAllStockItems(): Flow<List<StockItem>>
+
+    @Query("SELECT * from stockItems WHERE id_stock = :idStock ORDER BY expiration_date ASC")
+    fun getAllStockItemsByStock(idStock: Int): Flow<List<StockItem>>
 }

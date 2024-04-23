@@ -1,48 +1,56 @@
 package com.nmn.foodmanager.shoplist
 
+import android.annotation.SuppressLint
+import android.util.Log
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
-import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.nmn.foodmanager.R
+import com.nmn.foodmanager.databinding.RecyclerviewShoppingListItemBinding
 import com.nmn.foodmanager.main.entity.ShoppingListItem
 
-class ShoppingListItemAdapter : ListAdapter<ShoppingListItem, ShoppingListItemAdapter.ShoppingListItemViewHolder>(ShoppingListItemComparator) {
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ShoppingListItemViewHolder {
-        return ShoppingListItemViewHolder.create(parent)
+class ShoppingListItemAdapter(private val onDeleteCallback: (ShoppingListItem) -> Unit, private val onUpdateCallback: (ShoppingListItem) -> Unit) : RecyclerView.Adapter<ShoppingListItemAdapter.ViewHolder>() {
+
+    private var shoppingList = emptyList<ShoppingListItem>()
+
+    inner class ViewHolder(val binding: RecyclerviewShoppingListItemBinding) : RecyclerView.ViewHolder(binding.root)
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        Log.d("ShoppingListItemAdapter", "CreateViewHolder: $parent / $viewType")
+        val binding = RecyclerviewShoppingListItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+
+        return ViewHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: ShoppingListItemViewHolder, position: Int) {
-        val current = getItem(position)
-        holder.bind(current.name)
-    }
-
-    class ShoppingListItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val shoppingListItemItemView: TextView = itemView.findViewById(R.id.textView)
-
-        fun bind(text: String?) {
-            shoppingListItemItemView.text = text
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        var currentItem = shoppingList[position]
+        Log.d("ShoppingListItemAdapter", "Current item: $currentItem")
+        holder.binding.textViewShopListItemName.text = currentItem.name
+        holder.binding.textViewShopListItemQuantity.text = currentItem.quantity.toString()
+        holder.binding.validate.isChecked = currentItem.status
+        holder.binding.validate.setOnCheckedChangeListener { buttonView, isChecked ->
+            Log.d("ShoppingListItemAdapterCheckBox", "$currentItem is checked: $isChecked")
+            currentItem.status = isChecked
+            onUpdateCallback(currentItem)
         }
-
-        companion object {
-            fun create(parent: ViewGroup): ShoppingListItemViewHolder {
-                val view: View = LayoutInflater.from(parent.context)
-                    .inflate(R.layout.recyclerview_shopping_list_item, parent, false)
-                return ShoppingListItemViewHolder(view)
-            }
+        holder.binding.supprElement.setOnClickListener {
+            onDeleteCallback(currentItem)
         }
     }
 
-    class ShoppingListItemComparator : DiffUtil.ItemCallback<ShoppingListItem>() {
-        override fun areItemsTheSame(oldItem: ShoppingListItem, newItem: ShoppingListItem): Boolean {
-            return oldItem === newItem
-        }
+    override fun getItemCount(): Int {
+        val itemCount = shoppingList.size
+        Log.d("ShoppingListItemAdapter", "getItemCount : $itemCount")
+        return itemCount
+    }
 
-        override fun areContentsTheSame(oldItem: ShoppingListItem, newItem: ShoppingListItem): Boolean {
-            return oldItem.quantity == newItem.quantity
-        }
+    @SuppressLint("NotifyDataSetChanged")
+    fun setData(shoppingList: List<ShoppingListItem>) {
+        Log.d("ShoppingListItemAdapter", "Set Data: $shoppingList")
+        this.shoppingList = shoppingList
+        notifyDataSetChanged()
+    }
+
+    override fun getItemViewType(position: Int): Int {
+        return position
     }
 }

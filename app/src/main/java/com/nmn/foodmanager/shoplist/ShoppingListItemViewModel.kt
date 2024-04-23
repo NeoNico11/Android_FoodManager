@@ -1,53 +1,42 @@
 package com.nmn.foodmanager.shoplist
 
+import android.app.Application
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
+import androidx.lifecycle.viewModelScope
+import com.nmn.foodmanager.main.FoodmanagerDatabase
 import com.nmn.foodmanager.main.entity.ShoppingListItem
 import com.nmn.foodmanager.main.offlineRepository.OfflineShoppingListItemRepository
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
-class ShoppingListItemViewModel(private val repository: OfflineShoppingListItemRepository) : ViewModel() {
+class ShoppingListItemViewModel(application: Application)  : ViewModel() {
 
-    val allListItems: LiveData<List<ShoppingListItem>> = repository.getAllShoppingListItemsStream().asLiveData()
+    val allListItems: LiveData<List<ShoppingListItem>>
+    private val repository : OfflineShoppingListItemRepository
 
-    data class ShoppingListItemUiState(
-        val shoppingListItemDetails: ShoppingListItemDetails = ShoppingListItemDetails(),
-        val isEntryValid: Boolean = false
-    )
+    init {
+        val shoppingListItemDao = FoodmanagerDatabase.getDatabase(application).shoppingListItemDao()
+        repository = OfflineShoppingListItemRepository(shoppingListItemDao)
+        allListItems = repository.getAllShoppingListItemsByListStream(1).asLiveData()
+    }
 
-    data class ShoppingListItemDetails(
-        val id: Int = 0,
-        val idList: Long = 0,
-        val name: String = "",
-        val quantity: String = "",
-    )
+    fun addShoppingListItem(shoppingListItem: ShoppingListItem) {
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.insertShoppingListItem(shoppingListItem)
+        }
+    }
 
-    /**
-     * Extension function to convert [ShoppingListItemDetails] to [ShoppingListItem].
-     * [ShoppingListItemDetails.quantity] is not a valid [Int], then the quantity will be set to 0
-     */
-    fun ShoppingListItemDetails.toItem(): ShoppingListItem = ShoppingListItem(
-        id = id,
-        idList = idList,
-        name = name,
-        quantity = quantity.toIntOrNull() ?: 0
-    )
+    fun updateShoppingListItem(shoppingListItem: ShoppingListItem) {
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.updateShoppingListItem(shoppingListItem)
+        }
+    }
 
-    /**
-     * Extension function to convert [ShoppingListItem] to [ShoppingListItemUiState]
-     */
-    fun ShoppingListItem.toItemUiState(isEntryValid: Boolean = false): ShoppingListItemUiState = ShoppingListItemUiState(
-        shoppingListItemDetails = this.toShoppingListItemDetails(),
-        isEntryValid = isEntryValid
-    )
-
-    /**
-     * Extension function to convert [ShoppingListItem] to [ShoppingListItemDetails]
-     */
-    fun ShoppingListItem.toShoppingListItemDetails(): ShoppingListItemDetails = ShoppingListItemDetails(
-        id = id,
-        idList = idList,
-        name = name,
-        quantity = quantity.toString()
-    )
+    fun removeShoppingListItem(shoppingListItem: ShoppingListItem) {
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.deleteShoppingListItem(shoppingListItem)
+        }
+    }
 }
