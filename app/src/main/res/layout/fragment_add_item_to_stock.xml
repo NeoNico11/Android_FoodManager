@@ -20,30 +20,45 @@
     <EditText
         android:id="@+id/editTextNumberAddItem"
         android:layout_width="wrap_content"
-        android:layout_height="48dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
         android:ems="10"
         android:hint="@string/stockItemQuantity"
         android:inputType="number"
+        app:layout_constraintBottom_toTopOf="@+id/textViewAddItemDateExpiration"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextTextAddItem" />
 
-    <EditText
-        android:id="@+id/editTextDateAddItem"
-        android:layout_width="wrap_content"
-        android:layout_height="48dp"
-        android:ems="10"
-        android:hint="@string/stockItemExpirationDate"
-        android:inputType="date"
+    <TextView
+        android:id="@+id/textViewAddItemDateExpiration"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        tools:text="Aucune date"
+        android:textSize="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/pickDate"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextNumberAddItem" />
+
+    <Button
+        android:id="@+id/pickDate"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/stockItemExpirationDate"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewAddItemDateExpiration" />
+
 
     <Button
         android:id="@+id/buttonAddItem"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="@string/addItemtoStock"
-        app:layout_constraintEnd_toEndOf="@+id/editTextDateAddItem"
+        app:layout_constraintEnd_toEndOf="@+id/pickDate"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextDateAddItem" />
+        app:layout_constraintTop_toBottomOf="@+id/pickDate" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

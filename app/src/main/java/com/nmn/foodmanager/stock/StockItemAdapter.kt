@@ -1,14 +1,17 @@
 package com.nmn.foodmanager.stock
 
 import android.annotation.SuppressLint
+import android.os.Build
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import com.nmn.foodmanager.databinding.RecyclerviewStockItemBinding
 import com.nmn.foodmanager.main.entity.StockItem
+import java.time.LocalDate
 
-class StockItemAdapter(private val onDeleteCallback: (StockItem) -> Unit) : RecyclerView.Adapter<StockItemAdapter.ViewHolder>() {
+class StockItemAdapter(private val onDeleteCallback: (StockItem) -> Unit, private val showPopUpUpdateItem: (StockItem) -> Unit) : RecyclerView.Adapter<StockItemAdapter.ViewHolder>() {
 
     private var stockItemList = emptyList<StockItem>()
 
@@ -21,24 +24,19 @@ class StockItemAdapter(private val onDeleteCallback: (StockItem) -> Unit) : Recy
         return ViewHolder(binding)
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        var currentItem = stockItemList[position]
+        val currentItem = stockItemList[position]
+        val expirationDate = LocalDate.ofEpochDay(currentItem.expirationDate)
         Log.d("StockItemAdapter", "Current item: $currentItem")
-        holder.binding.textViewShopListItemName.text = currentItem.name
+        holder.binding.textViewStockItemName.text = currentItem.name
         holder.binding.textViewStockItemQuantity.text = currentItem.quantity.toString()
-        holder.binding.textViewStockItemExpireDate.text = currentItem.expirationDate.toString()
-//        holder.binding.validate.setOnCheckedChangeListener { buttonView, isChecked ->
-//            Log.d("ShoppingListItemAdapterCheckBox", "$currentItem is checked: $isChecked")
-//            if(isChecked) {
-//                currentItem.status = true
-//            }
-//            else {
-//                currentItem.status = false
-//            }
-//            onUpdateCallback(currentItem)
-//        }
+        holder.binding.textViewStockItemExpireDate.text = expirationDate.toString()
         holder.binding.supprStockElement.setOnClickListener {
             onDeleteCallback(currentItem)
+        }
+        holder.binding.stockItem.setOnClickListener {
+            showPopUpUpdateItem(currentItem)
         }
     }
 

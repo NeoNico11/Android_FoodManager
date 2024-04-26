@@ -12,11 +12,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.nmn.foodmanager.databinding.FragmentStockBinding
 import com.nmn.foodmanager.main.entity.StockItem
 
-/**
- * A simple [Fragment] subclass.
- * Use the [Stock.newInstance] factory method to
- * create an instance of this fragment.
- */
 class Stock : Fragment() {
 
     private var _binding : FragmentStockBinding?= null
@@ -36,7 +31,7 @@ class Stock : Fragment() {
         Log.d("Stock", "Binding layoutManager to recyclerviewShopList : $layoutManager")
         binding.recyclerviewStock.layoutManager = layoutManager
         // Recyclerview - Adapter
-        val adapter = StockItemAdapter(::deleteItemFromDatabase)
+        val adapter = StockItemAdapter(::deleteItemFromDatabase, ::openUpdatePopup)
         Log.d("Stock", "Binding adapter to recyclerviewShopList : $adapter")
         binding.recyclerviewStock.adapter = adapter
 
@@ -55,5 +50,10 @@ class Stock : Fragment() {
 
     private fun deleteItemFromDatabase(stockItem: StockItem) {
         mStockItemViewModel.removeStockItem(stockItem)
+    }
+
+    private fun openUpdatePopup(stockItem: StockItem) {
+        val showPopUp = UpdateItem(stockItem)
+        showPopUp.show((activity as AppCompatActivity).supportFragmentManager, "showPopUp")
     }
 }
