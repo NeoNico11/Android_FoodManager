@@ -48,7 +48,7 @@ class ShoppingListItemViewModel(application: Application)  : ViewModel() {
 
     private fun createListShopping(id: Int) {
         viewModelScope.launch(Dispatchers.IO) {
-            repositoryShoppingList.insertShoppingList(ShoppingList(id, "stocklist"))
+            repositoryShoppingList.insertShoppingList(ShoppingList(id, "shoplist"))
         }
     }
 }
