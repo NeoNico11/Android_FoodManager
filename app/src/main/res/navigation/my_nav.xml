@@ -19,7 +19,7 @@
     </fragment>
     <fragment
         android:id="@+id/settings"
-        android:name="com.nmn.foodmanager.Settings"
+        android:name="com.nmn.foodmanager.settings.Settings"
         android:label="fragment_settings"
         tools:layout="@layout/fragment_settings" >
         <action

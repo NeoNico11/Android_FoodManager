@@ -7,14 +7,30 @@
     android:layout_height="wrap_content"
     android:padding="16dp">
 
+    <ImageButton
+        android:id="@+id/addShopListQtyButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        app:layout_constraintStart_toEndOf="@+id/textView_shopListItemQuantity"
+        app:layout_constraintTop_toTopOf="@+id/supprElement"
+        app:srcCompat="@drawable/outline_add_24" />
+
+    <ImageButton
+        android:id="@+id/removeShopListQtyButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@+id/Quantity"
+        app:layout_constraintTop_toTopOf="@+id/addShopListQtyButton"
+        app:srcCompat="@drawable/outline_remove_24" />
+
     <TextView
         android:id="@+id/textView_shopListItemName"
         style="test"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/Quantity"
+        app:layout_constraintBottom_toTopOf="@+id/validate"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="test" />
@@ -26,7 +42,7 @@
         android:layout_height="wrap_content"
         android:text="Quantité : "
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/textView_shopListItemQuantity"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
@@ -34,9 +50,9 @@
         style="test"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="24dp"
+        android:layout_marginStart="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/validate"
+        app:layout_constraintStart_toEndOf="@+id/removeShopListQtyButton"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="1" />
 
@@ -49,10 +65,12 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <View
+        android:id="@+id/view3"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="#c3c3c3"
-        app:layout_constraintTop_toBottomOf="@+id/validate" />
+        app:layout_constraintTop_toBottomOf="@+id/validate"
+        tools:layout_editor_absoluteX="3dp" />
 
     <ImageButton
         android:id="@+id/supprElement"

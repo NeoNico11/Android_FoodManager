@@ -26,6 +26,19 @@ class ShoppingListItemAdapter(private val onDeleteCallback: (ShoppingListItem) -
         Log.d("ShoppingListItemAdapter", "Current item: $currentItem")
         holder.binding.textViewShopListItemName.text = currentItem.name
         holder.binding.textViewShopListItemQuantity.text = currentItem.quantity.toString()
+        holder.binding.addShopListQtyButton.setOnClickListener {
+            currentItem.quantity += 1
+            onUpdateCallback(currentItem)
+        }
+        holder.binding.removeShopListQtyButton.setOnClickListener {
+            currentItem.quantity -= 1
+            if(currentItem.quantity > 0) {
+                onUpdateCallback(currentItem)
+            }
+            else {
+                onDeleteCallback(currentItem)
+            }
+        }
         holder.binding.validate.isChecked = currentItem.status
         holder.binding.validate.setOnCheckedChangeListener { buttonView, isChecked ->
             Log.d("ShoppingListItemAdapterCheckBox", "$currentItem is checked: $isChecked")

@@ -39,7 +39,6 @@ class AddItemToStock : DialogFragment() {
         return binding.root
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -56,7 +55,6 @@ class AddItemToStock : DialogFragment() {
             newFragment.show((activity as AppCompatActivity).supportFragmentManager, "showPopUp")
         }
     }
-    @RequiresApi(Build.VERSION_CODES.O)
     private fun insertItemToDatabase() {
         val stockItemName = binding.editTextTextAddItem.text.toString()
         val stockItemQuantity = binding.editTextNumberAddItem.text.toString()

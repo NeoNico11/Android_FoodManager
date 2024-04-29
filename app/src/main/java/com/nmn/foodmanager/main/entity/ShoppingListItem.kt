@@ -17,6 +17,6 @@ data class ShoppingListItem(
     @PrimaryKey (autoGenerate = true) val id: Int = 0,
     @ColumnInfo(name = "id_list") val idList: Int,
     @ColumnInfo(name = "name") val name: String,
-    @ColumnInfo(name = "quantity") val quantity: Int,
+    @ColumnInfo(name = "quantity") var quantity: Int,
     @ColumnInfo(name = "status") var status: Boolean
 )

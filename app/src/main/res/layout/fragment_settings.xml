@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.nmn.foodmanager.Settings">
+    tools:context="com.nmn.foodmanager.settings.Settings">
 
     <!-- TODO: Update blank fragment layout -->
 
@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="@dimen/global_padding"
-        tools:context="com.nmn.foodmanager.Settings">
+        tools:context="com.nmn.foodmanager.settings.Settings">
 
         <Switch
             android:id="@+id/switch1"
